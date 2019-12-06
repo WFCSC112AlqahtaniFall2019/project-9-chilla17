@@ -7,20 +7,15 @@ using namespace std;
 class Data {
 public:
     Data(); // default constructor
-    Data(string recordID, string city, string state, string year, string solved, string vicSex, int vicAge, string perpSex, string perpAge);
+    Data(string st, string yr, int vAge, string pAge);
     friend ostream& operator<<(ostream &out, const Data& print);
     bool operator< (const Data& rhs);
     bool operator<= (const Data& rhs);
 
 protected:
-    string recordID;
-    string city;
     string state;
     string year;
-    string solved;
-    string vicSex;
     int vicAge;
-    string perpSex;
     string perpAge;
 };
 

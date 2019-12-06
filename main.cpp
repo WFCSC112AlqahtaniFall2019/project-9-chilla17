@@ -19,12 +19,12 @@ void bubbleSort(vector<T>& arr, int size) {
 }
 
 // selection sort from min to max from slides
-template <typename T>
-void minSort(vector <T>& arr, int size) {
+template<typename T>
+void minSort(vector<T> &arr, int size) {
     int min;
     for (int i = 0; i < size - 1; ++i) {
         min = i;
-        for (int j = 1 + 1; j < size; ++j) {
+        for (int j = i + 1; j < size; ++j) {
             if (arr[j] < arr[min]) {
                 min = j;
             }
@@ -32,6 +32,7 @@ void minSort(vector <T>& arr, int size) {
         swap(arr[i], arr[min]);
     }
 }
+
 
 // partition and quickSort from Zybooks
 template <typename T>
@@ -174,14 +175,9 @@ int main() {
 
     ifstream in;
     ofstream out;
-    string ID;
-    string c;
     string st;
     string yr;
-    string solv;
-    string vSex;
     string vAge;
-    string pSex;
     string pAge;
 
     // csv file to record times for each sorting algorithm
@@ -204,17 +200,12 @@ int main() {
     cout << "Reading homicide.csv..." << endl;
 
     while (!in.eof()) {
-        getline(in, ID, ',');
-        getline(in, c, ',');
         getline(in, st, ',');
         getline(in, yr, ',');
-        getline(in, solv, ',');
-        getline(in, vSex, ',');
         getline(in, vAge, ',');
-        getline(in, pSex, ',');
         getline(in, pAge, '\n');
         int age = stoi(vAge); // change age from string to int
-        Data data(ID, c, st, yr, solv, vSex, age, pSex, pAge); // Data class object
+        Data data(st, yr, age, pAge); // Data class object
         dataV.push_back(data); // put Data objects into vector
 
     }
@@ -239,118 +230,181 @@ int main() {
     vector<int> intV_Q = intV;
     vector<int> intV_M = intV;
 
+    // bubbleSort
+    cout << "bubbleSort..." << endl;
+    out << "bubbleSort..." << endl;
     for (int N = 0; N <= dataV.size(); N = N + 10000) {
-
-        // bubbleSort
-        cout << "bubbleSort..." << endl;
-        // time
+        // dataset sort
         clock_t start_dataV_B = clock(); //start clock
         bubbleSort(dataV_B, N);
         clock_t end_dataV_B = clock(); //end clock
         double elapsed_dataV_B = double(end_dataV_B - start_dataV_B) / CLOCKS_PER_SEC;
+        out << N << ", " << elapsed_dataV_B << ", ";
 
         // unit test
         for (int i = 1; i < N - 1; i++) {
             assert(dataV_B.at(i - 1) <= dataV_B.at(i));
         }
 
-        // time
+        // dataset re-sort
+        clock_t start_dataV_B2 = clock(); //start clock
+        bubbleSort(dataV_B, N);
+        clock_t end_dataV_B2 = clock(); //end clock
+        double elapsed_dataV_B2 = double(end_dataV_B2 - start_dataV_B2) / CLOCKS_PER_SEC;
+        out << elapsed_dataV_B2 << ", ";
+
+        // int vector sort
         clock_t start_intV_B = clock(); //start clock
         bubbleSort(intV_B, N);
         clock_t end_intV_B = clock(); //end clock
         double elapsed_intV_B = double(end_intV_B - start_intV_B) / CLOCKS_PER_SEC;
+        out << elapsed_intV_B << ", ";
 
         // unit test
         for (int i = 1; i < N - 1; i++) {
             assert(intV_B.at(i - 1) <= intV_B.at(i));
         }
-        cout << "finished bubbleSort" << endl;
 
-        // minSort
-        cout << "minSort..." << endl;
-        // time
+        // int vector re-sort
+        clock_t start_intV_B2 = clock(); //start clock
+        bubbleSort(intV_B, N);
+        clock_t end_intV_B2 = clock(); //end clock
+        double elapsed_intV_B2 = double(end_intV_B2 - start_intV_B2) / CLOCKS_PER_SEC;
+        out << elapsed_intV_B2 << endl;
+
+    }
+    cout << "finished bubbleSort" << endl;
+
+    // minSort
+    cout << "selectionSort..." << endl;
+    out << "selectionSort..." << endl;
+    for (int N = 0; N <= dataV.size(); N = N + 10000) {
+        // dataset sort
         clock_t start_dataV_S = clock(); // start clock
         minSort(dataV_S, N);
         clock_t end_dataV_S = clock(); //end clock
         double elapsed_dataV_S = double(end_dataV_S - start_dataV_S) / CLOCKS_PER_SEC;
+        out << N << ", " << elapsed_dataV_S << ", ";
 
         // unit test
         for (int i = 1; i < N - 1; i++) {
-            assert(dataV_B.at(i - 1) <= dataV_B.at(i));
+            assert(dataV_S.at(i - 1) <= dataV_S.at(i));
         }
 
-        // time
+        // dataset re-sort
+        clock_t start_dataV_S2 = clock(); // start clock
+        minSort(dataV_S, N);
+        clock_t end_dataV_S2 = clock(); //end clock
+        double elapsed_dataV_S2 = double(end_dataV_S2 - start_dataV_S2) / CLOCKS_PER_SEC;
+        out << elapsed_dataV_S2 << ", ";
+
+        // int vector sort
         clock_t start_intV_S = clock(); //start clock
-        bubbleSort(intV_S, N);
+        minSort(intV_S, N);
         clock_t end_intV_S = clock(); //end clock
         double elapsed_intV_S = double(end_intV_S - start_intV_S) / CLOCKS_PER_SEC;
+        out << elapsed_intV_S << ", ";
 
         // unit test
         for (int i = 1; i < N - 1; i++) {
             assert(intV_S.at(i - 1) <= intV_S.at(i));
         }
-        cout << "finished minSort" << endl;
 
-        // quickSort
-        cout << "quickSort..." << endl;
-        // time
+        // int vector re-sort
+        clock_t start_intV_S2 = clock(); //start clock
+        minSort(intV_S, N);
+        clock_t end_intV_S2 = clock(); //end clock
+        double elapsed_intV_S2 = double(end_intV_S2 - start_intV_S2) / CLOCKS_PER_SEC;
+        out << elapsed_intV_S2 << endl;
+
+    }
+    cout << "finished selectionSort" << endl;
+
+    // quickSort
+    cout << "quickSort..." << endl;
+    out << "quickSort..." << endl;
+    for (int N = 0; N <= dataV.size(); N = N + 10000) {
+        // dataset sort
         clock_t start_dataV_Q = clock(); // start clock
         quickSort(dataV_Q, 0, N - 1);
         clock_t end_dataV_Q = clock(); //end clock
         double elapsed_dataV_Q = double(end_dataV_Q - start_dataV_Q) / CLOCKS_PER_SEC;
+        out << N << ", " << elapsed_dataV_Q << ", ";
 
         // unit test
         for (int i = 1; i < N - 1; i++) {
             assert(dataV_Q.at(i - 1) <= dataV_Q.at(i));
         }
 
-        // time
+        // dataset re-sort
+        clock_t start_dataV_Q2 = clock(); // start clock
+        quickSort(dataV_Q, 0, N - 1);
+        clock_t end_dataV_Q2 = clock(); //end clock
+        double elapsed_dataV_Q2 = double(end_dataV_Q2 - start_dataV_Q2) / CLOCKS_PER_SEC;
+        out << elapsed_dataV_Q2 << ", ";
+
+        // int vector sort
         clock_t start_intV_Q = clock(); // start clock
         quickSort(intV_Q, 0, N - 1);
         clock_t end_intV_Q = clock(); //end clock
         double elapsed_intV_Q = double(end_intV_Q - start_intV_Q) / CLOCKS_PER_SEC;
+        out << elapsed_intV_Q << ", ";
 
         // unit test
         for (int i = 1; i < N - 1; i++) {
             assert(intV_Q.at(i - 1) <= intV_Q.at(i));
         }
 
-        cout << "finished quickSort" << endl;
+        clock_t start_intV_Q2 = clock(); // start clock
+        quickSort(intV_Q, 0, N - 1);
+        clock_t end_intV_Q2 = clock(); //end clock
+        double elapsed_intV_Q2 = double(end_intV_Q2 - start_intV_Q2) / CLOCKS_PER_SEC;
+        out << elapsed_intV_Q << endl;
+    }
+    cout << "finished quickSort" << endl;
 
-        // mergeSort
-        cout << "mergeSort..." << endl;
-        // time
+    cout << "mergeSort..." << endl;
+    out << "mergeSort..." << endl;
+    for (int N = 0; N <= dataV.size(); N = N + 10000) {
+        // dataset sort
         clock_t start_dataV_M = clock(); // start clock
         mergeSort(dataV_M, 0, N - 1);
         clock_t end_dataV_M = clock(); //end clock
         double elapsed_dataV_M = double(end_dataV_M - start_dataV_M) / CLOCKS_PER_SEC;
+        out << N << elapsed_dataV_M << ", ";
 
         // unit test
         for (int i = 1; i < N - 1; i++) {
             assert(dataV_M.at(i - 1) <= dataV_M.at(i));
         }
 
-        // time
+        // dataset re-sort
+        clock_t start_dataV_M2 = clock(); // start clock
+        mergeSort(dataV_M, 0, N - 1);
+        clock_t end_dataV_M2 = clock(); //end clock
+        double elapsed_dataV_M2 = double(end_dataV_M2 - start_dataV_M2) / CLOCKS_PER_SEC;
+        out << elapsed_dataV_M2 << ", ";
+
+        // int vector sort
         clock_t start_intV_M = clock(); // start clock
         mergeSort(intV_M, 0, N - 1);
         clock_t end_intV_M = clock(); //end clock
         double elapsed_intV_M = double(end_intV_M - start_intV_M) / CLOCKS_PER_SEC;
+        out << elapsed_intV_M << ", ";
 
         // unit test
         for (int i = 1; i < N - 1; i++) {
             assert(intV_M.at(i - 1) <= intV_M.at(i));
         }
-        cout << "finished mergeSort" << endl;
 
-        // while loop to print labels at the top of my time table
-        int P = N;
-        while (P == 0) {
-            out << "N" << ", " << "bubbleSort homicide" << ", " << "bubbleSort int" << ", " << "selectionSort homicide" << ", " << "selectionSort int" << ", " << "quickSort homicide" << ", " << "quickSort int" << ", " << "mergeSort homicide" << ", " << "mergeSort int" << endl;
-            P++;
-        }
-
-        out << N << ", " << elapsed_dataV_B << ", " << elapsed_intV_B << ", " << elapsed_dataV_S << ", " << elapsed_intV_S << ", " << elapsed_dataV_Q << ", " << elapsed_intV_Q << ", " << elapsed_dataV_M << ", " << elapsed_intV_M << endl;
+        // int vector re-sort
+        clock_t start_intV_M2 = clock(); // start clock
+        mergeSort(intV_M, 0, N - 1);
+        clock_t end_intV_M2 = clock(); //end clock
+        double elapsed_intV_M2 = double(end_intV_M2 - start_intV_M2) / CLOCKS_PER_SEC;
+        out << elapsed_intV_M2 << endl;
     }
+    cout << "finished mergeSort" << endl;
 
     return 0;
 }
