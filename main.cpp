@@ -371,7 +371,7 @@ int main() {
         mergeSort(dataV_M, 0, N - 1);
         clock_t end_dataV_M = clock(); //end clock
         double elapsed_dataV_M = double(end_dataV_M - start_dataV_M) / CLOCKS_PER_SEC;
-        out << N << elapsed_dataV_M << ", ";
+        out << N << ", " << elapsed_dataV_M << ", ";
 
         // unit test
         for (int i = 1; i < N - 1; i++) {
